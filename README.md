@@ -1,7 +1,7 @@
 # Ludicrously fast json library for scala
 
-* usual json serialization ~30ys (~0.003ms)
-* usual json deserialization ~50ys (~0.005ms)
+* usual json serialization ~3ys (~0.003ms)
+* usual json deserialization ~5ys (~0.005ms)
 
 ----
 
