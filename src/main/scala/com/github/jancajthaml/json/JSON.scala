@@ -45,14 +45,13 @@ object jsondumps extends (Map[String, Any] => String) {
   import json.{nothing, quotecomma, quotecolonquote, quotecolon}
 
   def apply(value: Map[String, Any]): String = {
-    //@todo string construction hogs this, should refactor to
-    //recursion returning chunks of Array[Byte] in sudo parallel
     var vector: Vector[Any] = Vector[Any]()
 
     value.map(x => x._2 match {
-      case d: String => vector = (vector ++ ('"' +: x._1) ++ quotecolonquote ++ x._2.asInstanceOf[String] ++ quotecomma)
+      case v: String => vector = (vector ++ ('"' +: x._1) ++ quotecolonquote ++ v ++ quotecomma)
       case null => vector = (vector ++ ('"' +: x._1) ++ nothing)
-      case c => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (x._2.toString :+ ','))
+      case (v: Map[String, Any] @unchecked) => vector = (vector ++ (('"' +: x._1) ++ quotecolon ++ apply(v) :+ ','))
+      case v => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (v.toString :+ ','))
     })
 
     '{' + vector.dropRight(1).mkString + '}'

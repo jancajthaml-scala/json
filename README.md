@@ -9,6 +9,101 @@ currently supporting flat json (no nesting)
 
 -----
 
+## Performance (in ms)
+
+### jsondumps
+```
+[info] ::Benchmark com.github.jancajthaml.json.jsondumps::
+[info] cores: 4
+[info] name: Java HotSpot(TM) 64-Bit Server VM
+[info] osArch: x86_64
+[info] osName: Mac OS X
+[info] vendor: Oracle Corporation
+[info] version: 25.91-b14
+[info] Parameters(numberOfKeys -> 0): 0.001531
+[info] Parameters(numberOfKeys -> 3000): 3.819704
+[info] Parameters(numberOfKeys -> 6000): 7.899319
+[info] Parameters(numberOfKeys -> 9000): 12.000378
+[info] Parameters(numberOfKeys -> 12000): 16.56781
+[info] Parameters(numberOfKeys -> 15000): 21.440188
+[info] Parameters(numberOfKeys -> 18000): 26.214439
+[info] Parameters(numberOfKeys -> 21000): 30.950173
+[info] Parameters(numberOfKeys -> 24000): 35.723854
+[info] Parameters(numberOfKeys -> 27000): 40.383375
+[info] Parameters(numberOfKeys -> 30000): 44.961602
+[info] Parameters(numberOfKeys -> 33000): 49.492231
+[info] Parameters(numberOfKeys -> 36000): 54.027376
+[info] Parameters(numberOfKeys -> 39000): 58.546606
+[info] Parameters(numberOfKeys -> 42000): 63.09093
+[info] Parameters(numberOfKeys -> 45000): 67.88862
+[info] Parameters(numberOfKeys -> 48000): 72.560683
+[info] Parameters(numberOfKeys -> 51000): 77.327245
+[info] Parameters(numberOfKeys -> 54000): 81.965045
+[info] Parameters(numberOfKeys -> 57000): 87.551014
+[info] Parameters(numberOfKeys -> 60000): 90.641135
+[info] Parameters(numberOfKeys -> 63000): 96.539909
+[info] Parameters(numberOfKeys -> 66000): 100.480757
+[info] Parameters(numberOfKeys -> 69000): 106.730581
+[info] Parameters(numberOfKeys -> 72000): 110.775642
+[info] Parameters(numberOfKeys -> 75000): 115.850534
+[info] Parameters(numberOfKeys -> 78000): 123.328884
+[info] Parameters(numberOfKeys -> 81000): 133.086574
+[info] Parameters(numberOfKeys -> 84000): 140.350652
+[info] Parameters(numberOfKeys -> 87000): 149.891334
+[info] Parameters(numberOfKeys -> 90000): 159.868311
+```
+
+### jsonloads
+```
+[info] ::Benchmark com.github.jancajthaml.json.jsonloads::
+[info] cores: 4
+[info] name: Java HotSpot(TM) 64-Bit Server VM
+[info] osArch: x86_64
+[info] osName: Mac OS X
+[info] vendor: Oracle Corporation
+[info] version: 25.91-b14
+[info] Parameters(numberOfKeys -> 0): 0.004812
+[info] Parameters(numberOfKeys -> 3000): 4.865389
+[info] Parameters(numberOfKeys -> 6000): 9.774624
+[info] Parameters(numberOfKeys -> 9000): 14.714519
+[info] Parameters(numberOfKeys -> 12000): 19.892579
+[info] Parameters(numberOfKeys -> 15000): 25.22713
+[info] Parameters(numberOfKeys -> 18000): 30.48835
+[info] Parameters(numberOfKeys -> 21000): 35.676145
+[info] Parameters(numberOfKeys -> 24000): 40.8962
+[info] Parameters(numberOfKeys -> 27000): 46.111992
+[info] Parameters(numberOfKeys -> 30000): 51.29934
+[info] Parameters(numberOfKeys -> 33000): 56.581007
+[info] Parameters(numberOfKeys -> 36000): 61.807249
+[info] Parameters(numberOfKeys -> 39000): 66.969753
+[info] Parameters(numberOfKeys -> 42000): 72.628665
+[info] Parameters(numberOfKeys -> 45000): 77.724146
+[info] Parameters(numberOfKeys -> 48000): 82.973819
+[info] Parameters(numberOfKeys -> 51000): 88.05248
+[info] Parameters(numberOfKeys -> 54000): 93.229682
+[info] Parameters(numberOfKeys -> 57000): 98.441395
+[info] Parameters(numberOfKeys -> 60000): 103.737445
+[info] Parameters(numberOfKeys -> 63000): 109.140576
+[info] Parameters(numberOfKeys -> 66000): 114.272794
+[info] Parameters(numberOfKeys -> 69000): 119.978274
+[info] Parameters(numberOfKeys -> 72000): 125.657045
+[info] Parameters(numberOfKeys -> 75000): 131.959808
+[info] Parameters(numberOfKeys -> 78000): 138.087714
+[info] Parameters(numberOfKeys -> 81000): 144.614552
+[info] Parameters(numberOfKeys -> 84000): 149.004824
+[info] Parameters(numberOfKeys -> 87000): 157.020853
+[info] Parameters(numberOfKeys -> 90000): 162.424383
+```
+
+-----
+
+# How it works
+
+It decomposes json parsing/loading problems into mapping flat json to key-value pairs and
+flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means recursion.
+
+`some features and some data types are TBD` 
+
 ## jsonloads
 
 (k, v) = chunk separated by `,` splitted by `:`
@@ -41,50 +136,3 @@ currently supporting flat json (no nesting)
 | x:String | String(" + x.toString + ") |
 | null     | String(null)               |
 | x:Any    | String(x.toString)         |
-
-
-## Performance (in ms)
-
-### jsondumps
-```
-[info] ::Benchmark com.github.jancajthaml.json.jsondumps::
-[info] cores: 4
-[info] name: Java HotSpot(TM) 64-Bit Server VM
-[info] osArch: x86_64
-[info] osName: Mac OS X
-[info] vendor: Oracle Corporation
-[info] version: 25.91-b14
-[info] Parameters(numberOfKeys -> 0): 0.001741
-[info] Parameters(numberOfKeys -> 3000): 3.861912
-[info] Parameters(numberOfKeys -> 6000): 7.882357
-[info] Parameters(numberOfKeys -> 9000): 11.966896
-[info] Parameters(numberOfKeys -> 12000): 16.542081
-[info] Parameters(numberOfKeys -> 15000): 21.472868
-[info] Parameters(numberOfKeys -> 18000): 26.346799
-[info] Parameters(numberOfKeys -> 21000): 31.107558
-[info] Parameters(numberOfKeys -> 24000): 35.943811
-[info] Parameters(numberOfKeys -> 27000): 40.540713
-[info] Parameters(numberOfKeys -> 30000): 45.142919
-```
-
-### jsonloads
-```
-[info] ::Benchmark com.github.jancajthaml.json.jsonloads::
-[info] cores: 4
-[info] name: Java HotSpot(TM) 64-Bit Server VM
-[info] osArch: x86_64
-[info] osName: Mac OS X
-[info] vendor: Oracle Corporation
-[info] version: 25.91-b14
-[info] Parameters(numberOfKeys -> 0): 0.003103
-[info] Parameters(numberOfKeys -> 3000): 6.052836
-[info] Parameters(numberOfKeys -> 6000): 12.164405
-[info] Parameters(numberOfKeys -> 9000): 18.296846
-[info] Parameters(numberOfKeys -> 12000): 24.610448
-[info] Parameters(numberOfKeys -> 15000): 31.111202
-[info] Parameters(numberOfKeys -> 18000): 37.556477
-[info] Parameters(numberOfKeys -> 21000): 43.961495
-[info] Parameters(numberOfKeys -> 24000): 50.332477
-[info] Parameters(numberOfKeys -> 27000): 56.705562
-[info] Parameters(numberOfKeys -> 30000): 63.123621
-```

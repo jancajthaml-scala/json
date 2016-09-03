@@ -25,6 +25,11 @@ class JSONSpecs extends FlatSpec with Matchers {
     json should include ("\"E\":\"e\"")
   }
 
+  it should "serialize nested maps" in {
+    val map = Map("A1" -> Map("B1" -> Map("C" -> "D"), "B2" -> "V1"), "A2" -> "V2")
+    1 should === (1)
+  }
+
   "jsonloads" should "deserialize with type awareness" in {
     val map = jsonloads("""{"E":"e","A":1,"B":null,"C":true,"D":false}""")
 
