@@ -50,9 +50,9 @@ object jsondumps extends (Map[String, Any] => String) {
     var vector: Vector[Any] = Vector[Any]()
 
     value.map(x => x._2 match {
-      case d: String => vector = (vector ++ ('"' +: x._1.asInstanceOf[String]) ++ quotecolonquote ++ x._2.asInstanceOf[String] ++ quotecomma)
-      case null => vector = (vector ++ ('"' +: x._1.asInstanceOf[String]) ++ nothing)
-      case c => vector = (vector ++ ('"' +: x._1.asInstanceOf[String]) ++ quotecolon ++ (x._2.toString :+ ','))
+      case d: String => vector = (vector ++ ('"' +: x._1) ++ quotecolonquote ++ x._2.asInstanceOf[String] ++ quotecomma)
+      case null => vector = (vector ++ ('"' +: x._1) ++ nothing)
+      case c => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (x._2.toString :+ ','))
     })
 
     '{' + vector.dropRight(1).mkString + '}'
@@ -68,12 +68,12 @@ object jsonloads extends (String => Map[String, Any]) {
     //because we do not support nested json strucures @todo TBD
     var loaded = Map[String, Any]()
 
-    //@todo slows down parsing 4 times, need better regex in better times
-    value.replaceAll("""[\r\n{}]+""", "").trim().split(",").filter(_.nonEmpty).map(x => {
+    //[\s]+{|}[\s]+|[\r\n{}]+|\s(?=([^"]*"[^"]*")*[^"]*$)
+    value.trim().replaceAll("""[\r\n{}]+|\s(?=([^"]*"[^"]*")*[^"]*$)""", "").split(",").filter(_.nonEmpty).map(x => {
       val t = x.split("\":")
-      //@todo these two regexes are bad, should be done on value beforehand
-      val v = t(1).replaceAll("""^[ \t]+|[ \t]+$""", "")
-      val k = t(0).replaceAll("""^[\"\' \t]+|[\"\' \t]+$""", "")
+      val v = t(1)
+      //@todo this regex could be done before iteration thus speeding up process even more
+      val k = t(0).replaceAll("""^[\"]+|[\"]+$""", "")
       loaded = char2fn.getOrElse(v(0), pass)(k, v, loaded)
     })
     loaded

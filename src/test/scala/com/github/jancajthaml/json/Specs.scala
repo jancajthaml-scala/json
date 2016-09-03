@@ -37,4 +37,56 @@ class JSONSpecs extends FlatSpec with Matchers {
     map.getOrElse("E", None) should === ("e")
   }
 
+  it should "deserialize multiline/malformed verbose" in {
+    val map = jsonloads("""
+      {
+
+
+
+                    "ID" : "SGML",
+          "SortAs"          : "SGML"   ,
+              "GlossTerm": "Standard Generalized Markup Language" ,
+          "Acronym"     : "SGML",
+          "Abbrev": "ISO 8879:1986",
+          "GlossDef": 123 , "GlossSee": "markup"
+  
+
+            }
+    """)
+
+    map.keys should have size (7)
+
+    map.getOrElse("ID", None) should === ("SGML")
+    map.getOrElse("SortAs", None) should === ("SGML")
+    map.getOrElse("GlossTerm", None) should === ("Standard Generalized Markup Language")
+    map.getOrElse("Abbrev", None) should === ("ISO 8879:1986")
+    map.getOrElse("GlossDef", None) should === (123)
+    map.getOrElse("GlossSee", None) should === ("markup")
+  }
+
+  "jsonloads + jsondumps" should "compress json" in {
+    val map = jsonloads("""
+      {
+
+
+
+                    "ID" : "SGML",
+          "SortAs"          : "SGML"   ,
+              "GlossTerm": "Standard Generalized Markup Language" ,
+          "Acronym"     : "SGML",
+          "Abbrev": "ISO 8879:1986",
+          "GlossDef": 123 , "GlossSee": "markup"
+  
+
+            }
+    """)
+
+    val json = jsondumps(map)
+
+    val expectedString = """{"ID":"SGML","Acronym":"SGML","GlossDef":123,"SortAs":"SGML","GlossSee":"markup","Abbrev":"ISO 8879:1986","GlossTerm":"Standard Generalized Markup Language"}"""
+
+    json should have length (expectedString.length())
+
+  }
+
 }
