@@ -45,19 +45,21 @@ object jsondumps extends (Map[String, Any] => String) {
   import json.{nothing, quotecomma, quotecolonquote, quotecolon}
 
   def apply(value: Map[String, Any]): String = {
-    var vector: Vector[Any] = Vector[Any]()
 
-    value.map(x => x._2 match {
-      case v: String => vector = (vector ++ ('"' +: x._1) ++ quotecolonquote ++ v ++ quotecomma)
-      case null => vector = (vector ++ ('"' +: x._1) ++ nothing)
-      case (v: Map[String, Any] @unchecked) => vector = (vector ++ (('"' +: x._1) ++ quotecolon ++ apply(v) :+ ','))
-      case v => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (v.toString :+ ','))
-    })
+    def walk(value: Map[String, Any]): Vector[Any] = {
+      var vector: Vector[Any] = Vector[Any]()
 
-    //@todo in recursion mkString is decomposed to Vector[Char] uneccessary, try to extract
-    //recursion walk to "go" code and mkString only once in return
-    //@todo dropRight(1) is uneccessary in recursion also
-    '{' + vector.dropRight(1).mkString + '}'
+      value.map(x => x._2 match {
+        case v: String => vector = (vector ++ ('"' +: x._1) ++ quotecolonquote ++ v ++ quotecomma)
+        case null => vector = (vector ++ ('"' +: x._1) ++ nothing)
+        case (v: Map[String, Any] @unchecked) => vector = (vector ++ (('"' +: x._1) ++ quotecolon ++ walk(v)))
+        case v => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (v.toString :+ ','))
+      })
+
+      Vector('{') ++ vector.dropRight(1) ++ Vector('}', ',')
+    }
+
+    walk(value).dropRight(1).mkString
   }
 }
 
