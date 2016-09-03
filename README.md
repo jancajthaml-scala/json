@@ -7,7 +7,7 @@
 
 ## What is does
 
-maps json string to Map
+maps json string to Map and vice versa
 
 ## How it works
 

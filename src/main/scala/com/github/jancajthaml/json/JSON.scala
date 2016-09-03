@@ -54,6 +54,9 @@ object jsondumps extends (Map[String, Any] => String) {
       case v => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (v.toString :+ ','))
     })
 
+    //@todo in recursion mkString is decomposed to Vector[Char] uneccessary, try to extract
+    //recursion walk to "go" code and mkString only once in return
+    //@todo dropRight(1) is uneccessary in recursion also
     '{' + vector.dropRight(1).mkString + '}'
   }
 }
