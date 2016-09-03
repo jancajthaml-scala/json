@@ -72,6 +72,9 @@ object jsonloads extends (String => Map[String, Any]) {
 
     //[\s]+{|}[\s]+|[\r\n{}]+|\s(?=([^"]*"[^"]*")*[^"]*$)
     value.trim().replaceAll("""[\r\n{}]+|\s(?=([^"]*"[^"]*")*[^"]*$)""", "").split(",").filter(_.nonEmpty).map(x => {
+      //@todo instead of split(",") and then split (":") we can either use indexOf and work with substring
+      //(not copying resources) or we can use regex match groups thus removing isEmpty and splitting by ","
+      //faster
       val t = x.split("\":")
       val v = t(1)
       //@todo this regex could be done before iteration thus speeding up process even more
