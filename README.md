@@ -1,17 +1,26 @@
-ludicrously fast json library for scala
+# Ludicrously fast json library for scala
+
+* usual json serialization ~30ys (~0.003ms)
+* usual json deserialization ~50ys (~0.005ms)
 
 ----
 
-* serialize Map to json
-* deserialize json to Map
+## What is does
 
-currently supporting flat json (no nesting)
+maps json string to Map
+
+## How it works
+
+It decomposes json parsing/loading problems into mapping flat json to key-value pairs and
+flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means recursion.
+
+`some features and some data types are TBD` 
 
 -----
 
-## Performance (in ms)
+### Performance in details (in ms)
 
-### jsondumps
+#### jsondumps
 ```
 [info] ::Benchmark com.github.jancajthaml.json.jsondumps::
 [info] cores: 4
@@ -53,7 +62,7 @@ currently supporting flat json (no nesting)
 [info] Parameters(numberOfKeys -> 90000): 159.868311
 ```
 
-### jsonloads
+#### jsonloads
 ```
 [info] ::Benchmark com.github.jancajthaml.json.jsonloads::
 [info] cores: 4
@@ -97,14 +106,9 @@ currently supporting flat json (no nesting)
 
 -----
 
-# How it works
+## Implementation tricks:
 
-It decomposes json parsing/loading problems into mapping flat json to key-value pairs and
-flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means recursion.
-
-`some features and some data types are TBD` 
-
-## jsonloads
+### jsonloads
 
 (k, v) = chunk separated by `,` splitted by `:`
 
@@ -129,10 +133,11 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 | {                 | ---                | ---     | YES (recursion to nested block enter) |
 | }                 | ---                | ---     | YES (recursion to nested block leave) |
 
-## jsondumps
+### jsondumps
 
-| v match  | resolved into              |
-| -------- |:--------------------------:|
-| x:String | String(" + x.toString + ") |
-| null     | String(null)               |
-| x:Any    | String(x.toString)         |
+| v match             | resolved into              |
+| ------------------- |:--------------------------:|
+| x:String            | String(" + x.toString + ") |
+| null                | String(null)               |
+| v: Map[String, Any] | recursion                  |
+| x:Any               | String(x.toString)         |
