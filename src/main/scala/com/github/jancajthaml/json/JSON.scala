@@ -8,6 +8,8 @@ package com.github.jancajthaml.json
 private[json] object json {
 
   val nothing: Vector[Any] = Vector('"', ':', 'n', 'u', 'l', 'l', ',')
+  val curlystart: Vector[Any] = Vector('{')
+  val curlyendcolon: Vector[Any] = Vector('}', ',')
   val quotecomma: Vector[Any] = Vector('"', ',')
   val quotecolonquote: Vector[Any] = Vector('"', ':', '"')
   val quotecolon: Vector[Any] = Vector('"', ':')
@@ -42,7 +44,7 @@ private[json] object json {
 
 object jsondumps extends (Map[String, Any] => String) {
   
-  import json.{nothing, quotecomma, quotecolonquote, quotecolon}
+  import json.{nothing, quotecomma, quotecolonquote, quotecolon, curlystart, curlyendcolon}
 
   def apply(value: Map[String, Any]): String = {
 
@@ -56,7 +58,7 @@ object jsondumps extends (Map[String, Any] => String) {
         case v => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (v.toString :+ ','))
       })
 
-      Vector('{') ++ vector.dropRight(1) ++ Vector('}', ',')
+      curlystart ++ vector.dropRight(1) ++ curlyendcolon
     }
 
     walk(value).dropRight(1).mkString
