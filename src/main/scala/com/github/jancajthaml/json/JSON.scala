@@ -12,8 +12,8 @@ private[json] object json {
   val curlystart: Vector[Any] = Vector('{')
   val curlyendcolon: Vector[Any] = Vector('}', ',')
   val quotecomma: Vector[Any] = Vector('"', ',')
-  val quote_colonquote: Vector[Any] = Vector('"', ':', '"')
-  val quote_colon: Vector[Any] = Vector('"', ':')
+  val quotecolonquote: Vector[Any] = Vector('"', ':', '"')
+  val quotecolon: Vector[Any] = Vector('"', ':')
   val colon: Vector[Any] = Vector(',')
   val quote: Vector[Any] = Vector('"')
 
