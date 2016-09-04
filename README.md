@@ -137,7 +137,7 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 
 | v match             | resolved into              |
 | ------------------- |:--------------------------:|
-| x:String            | String(" + x.toString + ") |
+| v:String            | String(" + x.toString + ") |
 | null                | String(null)               |
 | v: Map[String, Any] | recursion                  |
-| x:Any               | String(x.toString)         |
+| v:Any               | String(x.toString)         |

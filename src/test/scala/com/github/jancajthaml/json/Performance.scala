@@ -17,7 +17,7 @@ object Regression extends Bench[Double] {
   lazy val reporter = new LoggingReporter[Double]
   lazy val persistor = Persistor.None
   
-  val numberOfKeys = Gen.range("numberOfKeys")(0, 200, 20)
+  val numberOfKeys = Gen.range("numberOfKeys")(0, 500, 50)
   val maps = for (sz <- numberOfKeys) yield Map((0 until sz).toList map { a => s"$a" -> a }: _*)
   val jsons = for (sz <- numberOfKeys) yield jsondumps(Map((0 until sz).toList map { a => s"$a" -> s"$a" }: _*))
   

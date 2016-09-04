@@ -7,12 +7,15 @@ package com.github.jancajthaml.json
   */
 private[json] object json {
 
+  //@todo shorten variables names
   val nothing: Vector[Any] = Vector('"', ':', 'n', 'u', 'l', 'l', ',')
   val curlystart: Vector[Any] = Vector('{')
   val curlyendcolon: Vector[Any] = Vector('}', ',')
   val quotecomma: Vector[Any] = Vector('"', ',')
-  val quotecolonquote: Vector[Any] = Vector('"', ':', '"')
-  val quotecolon: Vector[Any] = Vector('"', ':')
+  val quote_colonquote: Vector[Any] = Vector('"', ':', '"')
+  val quote_colon: Vector[Any] = Vector('"', ':')
+  val colon: Vector[Any] = Vector(',')
+  val quote: Vector[Any] = Vector('"')
 
   /*
     (t|f) => boolean (true|false)
@@ -43,24 +46,29 @@ private[json] object json {
 }
 
 object jsondumps extends (Map[String, Any] => String) {
-  
-  import json.{nothing, quotecomma, quotecolonquote, quotecolon, curlystart, curlyendcolon}
+  //@todo shorten variables names
+  import json.{
+    nothing,
+    quotecomma,
+    quotecolonquote,
+    quotecolon,
+    curlystart,
+    curlyendcolon,
+    colon,
+    quote
+  }
 
   def apply(value: Map[String, Any]): String = {
-
     def walk(value: Map[String, Any]): Vector[Any] = {
       var vector: Vector[Any] = Vector[Any]()
-
       value.map(x => x._2 match {
-        case v: String => vector = (vector ++ ('"' +: x._1) ++ quotecolonquote ++ v ++ quotecomma)
-        case null => vector = (vector ++ ('"' +: x._1) ++ nothing)
-        case (v: Map[String, Any] @unchecked) => vector = (vector ++ (('"' +: x._1) ++ quotecolon ++ walk(v)))
-        case v => vector = (vector ++ ('"' +: x._1) ++ quotecolon ++ (v.toString :+ ','))
+        case v: String => vector ++= (quote ++ x._1 ++ quotecolonquote ++ v ++ quotecomma)
+        case null => vector ++= (quote ++ x._1 ++ nothing)
+        case (v: Map[String, Any] @unchecked) => vector ++= (quote ++ x._1 ++ quotecolon ++ walk(v))
+        case v => vector ++= (quote ++ x._1 ++ quotecolon ++ v.toString ++ colon)
       })
-
       curlystart ++ vector.dropRight(1) ++ curlyendcolon
     }
-
     walk(value).dropRight(1).mkString
   }
 }
