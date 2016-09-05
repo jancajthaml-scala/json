@@ -3,19 +3,7 @@ package com.github.jancajthaml.json
 import org.scalameter.api._
 import org.scalameter.picklers.Implicits._
 
-object Regression extends Bench[Double] {
-  
-  /* configuration */
-
-  lazy val executor = LocalExecutor(
-    new Executor.Warmer.Default,
-    Aggregator.min[Double],
-    measurer
-  )
-  
-  lazy val measurer = new Measurer.Default
-  lazy val reporter = new LoggingReporter[Double]
-  lazy val persistor = Persistor.None
+object Regression extends Bench.OfflineReport {
   
   val numberOfKeys = Gen.range("numberOfKeys")(0, 500, 50)
   val maps = for (sz <- numberOfKeys) yield Map((0 until sz).toList map { a => s"$a" -> a }: _*)
@@ -25,10 +13,20 @@ object Regression extends Bench[Double] {
 
   performance of "com.github.jancajthaml.json" in {
     measure method "jsondumps" in {
-      using(maps) in jsondumps
+      using(maps) config (
+        exec.benchRuns -> 20,
+        exec.independentSamples -> 1,
+        exec.outliers.covMultiplier -> 1.5,
+        exec.outliers.suspectPercent -> 40
+      ) in {x => jsondumps(x)}
     }
     measure method "jsonloads" in {
-      using(jsons) in jsonloads
+      using(jsons) config (
+        exec.benchRuns -> 20,
+        exec.independentSamples -> 1,
+        exec.outliers.covMultiplier -> 1.5,
+        exec.outliers.suspectPercent -> 40
+      ) in {x => jsonloads(x)}
     }
   }
   
