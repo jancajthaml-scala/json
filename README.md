@@ -5,6 +5,10 @@
 
 ----
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d84fbd2dcee449885b39c5b1a77c443)](https://www.codacy.com/app/jan-cajthaml/json?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jancajthaml-scala/json&amp;utm_campaign=Badge_Grade)
+
+----
+
 ## What is does
 
 maps json string to Map and vice versa
