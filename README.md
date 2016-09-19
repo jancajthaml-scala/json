@@ -36,7 +36,7 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 | 7                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
 | 8                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
 | 9                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
-| "                 | " + _.toString + "                     | String          |
+| "                 | " + _ + "                              | String          |
 | n                 | null                                   | null            |
 
 *TBD*
