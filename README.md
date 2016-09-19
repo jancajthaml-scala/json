@@ -27,15 +27,15 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 | t                 | true                                   | Boolean         |
 | f                 | false                                  | Boolean         |
 | 0                 | 0                                      | Integer         |
-| 1                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 2                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 3                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 4                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 5                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 6                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 7                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 8                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
-| 9                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer\|Long |
+| 1                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 2                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 3                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 4                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 5                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 6                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 7                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 8                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
+| 9                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
 | "                 | " + _ + "                              | String          |
 | n                 | null                                   | null            |
 
