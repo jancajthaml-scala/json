@@ -22,27 +22,32 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 
 (k, v) = chunk separated by `,` splitted by `:`
 
-| leading char of v | resolved as                            | type            | TBD?                                  |
-| ----------------- |:--------------------------------------:|:---------------:|:-------------------------------------:|
-| t                 | true                                   | Boolean         |                                       |
-| f                 | false                                  | Boolean         |                                       |
-| 0                 | 0                                      | Integer         |                                       |
-| 1                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 2                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 3                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 4                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 5                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 6                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 7                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 8                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| 9                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |                                       |
-| "                 | " + _.toString + "                     | String          |                                       |
-| n                 | null                                   | null            |                                       |
-| -                 | ---                                    | ---             | YES (negative number)                 |
-| u                 | ---                                    | ---             | YES (undefined or unicode)            |
-| e                 | ---                                    | ---             | YES (decimal number sci notation)     |
-| {                 | ---                                    | ---             | YES (recursion to nested block enter) |
-| }                 | ---                                    | ---             | YES (recursion to nested block leave) |
+| leading char of v | resolved as                            | type            |
+| ----------------- |:--------------------------------------:|:---------------:|
+| t                 | true                                   | Boolean         |
+| f                 | false                                  | Boolean         |
+| 0                 | 0                                      | Integer         |
+| 1                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 2                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 3                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 4                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 5                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 6                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 7                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 8                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| 9                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer or Long |
+| "                 | " + _.toString + "                     | String          |
+| n                 | null                                   | null            |
+
+*TBD*
+
+| leading char of v | resolved as                            | type            |
+| ----------------- |:--------------------------------------:|:---------------:|
+| -                 | ---                                    | ---             |
+| u                 | ---                                    | ---             |
+| e                 | ---                                    | ---             |
+| {                 | ---                                    | ---             |
+| }                 | ---                                    | ---             |
 
 ### jsondumps
 
