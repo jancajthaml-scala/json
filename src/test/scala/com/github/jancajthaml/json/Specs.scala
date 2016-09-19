@@ -1,7 +1,7 @@
 package com.github.jancajthaml.json
 
-import collection.mutable.Stack
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 
 class JSONSpecs extends FlatSpec with Matchers {
 
@@ -63,6 +63,26 @@ class JSONSpecs extends FlatSpec with Matchers {
     json should include ("\"maxLong\":" + maxLong)
   }
 
+  it should "serialize negative number" in {
+    var someInt: Int = -123
+    val maxInt: Int = Integer.MIN_VALUE
+    val someLong: Long = (Integer.MIN_VALUE.asInstanceOf[Long] - 100).asInstanceOf[Long]
+    val maxLong: Long = Long.MinValue
+
+    val map = Map(
+      "someInt" -> someInt,
+      "maxInt" -> maxInt,
+      "someLong" -> someLong,
+      "maxLong" -> maxLong
+    )
+    val json = jsondumps(map)
+
+    json should include ("\"someInt\":" + someInt)
+    json should include ("\"maxInt\":" + maxInt)
+    json should include ("\"someLong\":" + someLong)
+    json should include ("\"maxLong\":" + maxLong)
+  }
+
   "jsonloads" should "deserialize with type awareness" in {
     val map = jsonloads("""{"E":"e","A":1,"B":null,"C":true,"D":false}""")
 
@@ -108,6 +128,22 @@ class JSONSpecs extends FlatSpec with Matchers {
     val maxInt: Int = Integer.MAX_VALUE
     val someLong: Long = (Integer.MAX_VALUE.asInstanceOf[Long] + 100).asInstanceOf[Long]
     val maxLong: Long = Long.MaxValue
+
+    val map = jsonloads(s"""{"someInt":$someInt,"maxInt":$maxInt,"someLong":$someLong,"maxLong":$maxLong}""")
+
+    map.keys should have size (4)
+
+    map.getOrElse("someInt", None) should === (someInt)
+    map.getOrElse("someLong", None) should === (someLong)
+    map.getOrElse("maxInt", None) should === (maxInt)
+    map.getOrElse("maxLong", None) should === (maxLong)
+  }
+
+  it should "deserialize negative numbers" in {
+    var someInt: Int = -123
+    val maxInt: Int = Integer.MIN_VALUE
+    val someLong: Long = (Integer.MIN_VALUE.asInstanceOf[Long] - 100).asInstanceOf[Long]
+    val maxLong: Long = Long.MinValue
 
     val map = jsonloads(s"""{"someInt":$someInt,"maxInt":$maxInt,"someLong":$someLong,"maxLong":$maxLong}""")
 

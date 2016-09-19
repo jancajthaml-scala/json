@@ -22,32 +22,34 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 
 (k, v) = chunk separated by `,` splitted by `:`
 
-| leading char of v | resolved as                            | type            |
-| ----------------- |:--------------------------------------:|:---------------:|
-| t                 | true                                   | Boolean         |
-| f                 | false                                  | Boolean         |
-| 0                 | 0                                      | Integer         |
-| 1                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 2                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 3                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 4                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 5                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 6                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 7                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 8                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| 9                 | _ > Int.MAX ? _.parseLong : _.parseInt | Integer \| Long |
-| "                 | " + _ + "                              | String          |
-| n                 | null                                   | null            |
+| leading char of v | resolved as              | type            |
+| ----------------- |:------------------------:|:---------------:|
+| t                 | true                     | Boolean         |
+| f                 | false                    | Boolean         |
+| 0                 | 0                        | Integer         |
+| 1                 | positibe integral number | Integer \| Long |
+| 2                 | positibe integral number | Integer \| Long |
+| 3                 | positibe integral number | Integer \| Long |
+| 4                 | positibe integral number | Integer \| Long |
+| 5                 | positibe integral number | Integer \| Long |
+| 6                 | positibe integral number | Integer \| Long |
+| 7                 | positibe integral number | Integer \| Long |
+| 8                 | positibe integral number | Integer \| Long |
+| 9                 | positibe integral number | Integer \| Long |
+| -                 | negative integral number | Integer \| Long |
+| "                 | " + _ + "                | String          |
+| n                 | null                     | null            |
 
 ####TBD
 
-| leading char of v | resolved as                            | type            |
-| ----------------- |:--------------------------------------:|:---------------:|
-| -                 | ---                                    | ---             |
-| u                 | ---                                    | ---             |
-| e                 | ---                                    | ---             |
-| {                 | ---                                    | ---             |
-| }                 | ---                                    | ---             |
+| leading char of v | resolved as              | type            |
+| ----------------- |:------------------------:|:---------------:|
+| u                 | ---                      | ---             |
+| e                 | ---                      | ---             |
+| {                 | ---                      | ---             |
+| }                 | ---                      | ---             |
+| [                 | ---                      | ---             |
+| ]                 | ---                      | ---             |
 
 ### jsondumps
 

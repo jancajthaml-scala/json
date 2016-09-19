@@ -1,7 +1,6 @@
 package com.github.jancajthaml.json
 
-import org.scalameter.api._
-import org.scalameter.picklers.Implicits._
+import org.scalameter.api.{Bench, Gen, exec}
 
 object Regression extends Bench.OfflineReport {
   

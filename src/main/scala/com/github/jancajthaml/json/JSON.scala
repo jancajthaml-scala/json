@@ -16,53 +16,46 @@ private[json] object json {
   val quotecolon: Vector[Any] = Vector('"', ':')
   val colon: Vector[Any] = Vector(',')
   val quote: Vector[Any] = Vector('"')
-  val maxint: String = Integer.MAX_VALUE.toString
+  val pass = ((k: String, v: String, r: Map[String, Any]) => r)
 
   /*
     (t|f) => boolean (true|false)
-    (0|1|2|3|4|5|6|7|8|9) => integral number (decimals unsuported)
+    (0|1|2|3|4|5|6|7|8|9) => integral number
     (") => string
+    (-) => negative integral number
     (n) => null
     (u) => undefined or unicode ... skip
     (e) => decimal number sci notation ... skip
   */
   val char2fn = Map(
-    '"' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.drop(1).dropRight(1))),
-    't' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> true)),
-    'f' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> false)),
-    'n' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> null)),
-    '0' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> 0)),
-    '1' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '2' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '3' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '4' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '5' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '6' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '7' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '8' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    ),
-    '9' -> ((k:String, v:String, r:Map[String, Any]) =>
-      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
-    )
-    //@todo add support for negative numbers (leading char '-')
+    '"' -> ((k: String, v: String, r: Map[String, Any]) => r + (k -> v.drop(1).dropRight(1))),
+    't' -> ((k: String, v: String, r: Map[String, Any]) => r + (k -> true)),
+    'f' -> ((k: String, v: String, r: Map[String, Any]) => r + (k -> false)),
+    'n' -> ((k: String, v: String, r: Map[String, Any]) => r + (k -> null)),
+    '0' -> ((k: String, v: String, r: Map[String, Any]) => r + (k -> 0)),
+    '1' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '2' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '3' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '4' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '5' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '6' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '7' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '8' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '9' -> ((k: String, v: String, r: Map[String, Any]) => if (v.toLong > Integer.MAX_VALUE) r + (k -> v.toLong) else r + (k -> v.toInt)),
+    '-' -> ((k: String, v: String, r: Map[String, Any]) => r + (k -> Map(
+      '0' -> ((v: String) => 0),
+      '1' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '2' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '3' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '4' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '5' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '6' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '7' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '8' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt),
+      '9' -> ((v: String) => if (v.toLong < Integer.MIN_VALUE) v.toLong else v.toInt)
+    )(v(1))(v)))
   )
 
-  val pass = ((k:String, v:String, r:Map[String, Any]) => r)
 }
 
 object jsondumps extends (Map[String, Any] => String) {
