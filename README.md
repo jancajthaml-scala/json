@@ -39,7 +39,7 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 | "                 | " + _ + "                              | String          |
 | n                 | null                                   | null            |
 
-*TBD*
+####TBD
 
 | leading char of v | resolved as                            | type            |
 | ----------------- |:--------------------------------------:|:---------------:|
@@ -53,7 +53,7 @@ flat map into "k:v," string. Blocks of {} and instance of Map[String,Any] means 
 
 | v match             | resolved into              |
 | ------------------- |:--------------------------:|
-| v:String            | String(" + x.toString + ") |
+| v:String            | String(" + v + ")          |
 | null                | String(null)               |
 | v: Map[String, Any] | recursion                  |
-| v:Any               | String(x.toString)         |
+| v:Any               | String(v.toString)         |
