@@ -59,6 +59,7 @@ private[json] object json {
     '9' -> ((k:String, v:String, r:Map[String, Any]) =>
       if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
     )
+    //@todo add support for negative numbers (leading char '-')
   )
 
   val pass = ((k:String, v:String, r:Map[String, Any]) => r)
