@@ -2,7 +2,7 @@ import sbt.Keys._
 
 name := "json"
 
-version in Global := "0.1.0-SNAPSHOT"
+version in Global := "0.1.1-rc1"
 
 description := "JSON <-> Map[String, Any]"
 

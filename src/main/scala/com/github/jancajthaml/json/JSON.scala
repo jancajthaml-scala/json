@@ -16,6 +16,7 @@ private[json] object json {
   val quotecolon: Vector[Any] = Vector('"', ':')
   val colon: Vector[Any] = Vector(',')
   val quote: Vector[Any] = Vector('"')
+  val maxint: String = Integer.MAX_VALUE.toString
 
   /*
     (t|f) => boolean (true|false)
@@ -31,15 +32,33 @@ private[json] object json {
     'f' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> false)),
     'n' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> null)),
     '0' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> 0)),
-    '1' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '2' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '3' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '4' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '5' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '6' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '7' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '8' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt)),
-    '9' -> ((k:String, v:String, r:Map[String, Any]) => r + (k -> v.toInt))
+    '1' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '2' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '3' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '4' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '5' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '6' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '7' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '8' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    ),
+    '9' -> ((k:String, v:String, r:Map[String, Any]) =>
+      if (v > maxint) r + (k -> v.toLong) else r + (k -> v.toInt)
+    )
   )
 
   val pass = ((k:String, v:String, r:Map[String, Any]) => r)
