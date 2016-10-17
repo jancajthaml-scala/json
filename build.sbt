@@ -29,7 +29,7 @@ lazy val test = Project(
       "Artima Maven Repository" at "http://repo.artima.com/releases"
     ),
     libraryDependencies ++= Seq(
-      "com.storm-enroute" %% "scalameter" % "0.8-SNAPSHOT",
+      "com.storm-enroute" %% "scalameter" % "0.8.1",
       "org.scalatest" %% "scalatest" % "3.0.0" % "test"
     ),
     testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework"),
